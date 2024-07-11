@@ -11,4 +11,7 @@ export default defineConfig({
         }),
         react(),
     ],
+    resolve: {
+        mainFields: [],
+      },
 });

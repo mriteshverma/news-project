@@ -2,22 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Library\NewsApi;
+use App\Library\NewsApiService;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    use NewsApi;
+    use NewsApiService;
 
     /**
      * Display the News List in table.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $newsList = $this->where('q' , 'usa')->get();
-        echo '<pre>';
-        print_r($newsList);
+        // NewsApiService Params
+        $params = [
+            'q' => 'india'
+        ];
+        
+        // NewsApiService Query
+        $news_list = $this->where($params)->paginate(15)->appends($request->all())->toArray();
+    //     echo '<pre>';
+    //    print_r($news_list);die;
+        return Inertia::render(
+            'Welcome',
+            compact('news_list')
+        );
     }
+
+    
 }
